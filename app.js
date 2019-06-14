@@ -11,6 +11,8 @@ const bodyParser           = require('koa-bodyparser');
 const session              = require('koa-session');
 const staticPath           = '/views/Client';
 
+const braintree            = require("braintree");
+
 const authProvider         = require('./auth/Auth.Provider');
 const userProvider         = require('./user/UserProvider');
 const hasherProvider       = require('./hasher/hasherProvider');
@@ -19,6 +21,7 @@ const productProvider      = require('./product/Product.provider');
 const promotionProvider    = require('./promotion/Promotion.provider');
 const billProvider         = require('./bill/Bill.provider');
 const billDetailProvider   = require('./billdetail/BillDetail.provider');
+const braintreeProvider    = require('./braintree/BraintreeProvider');
 const customerProvider     = require('./customer/Customer.provider');
 const mailerProvider       = require('./mailer/Mail.provider');
 const routerDashboard      = require('./router/RouteDashboard');
@@ -54,6 +57,12 @@ app.use(billDetailProvider(knex));
 app.use(customerProvider(knex));
 app.use(mailerProvider(config.mail));
 app.use(authProvider());
+app.use(braintreeProvider({
+    sandbox: true,
+    merchantId: process.env.BRAINTREE_MERCHANT_ID,
+    publicKey: process.env.BRAINTREE_PUBLIC_KEY,
+    privateKey: process.env.BRAINTREE_PRIVATE_KEY
+}));
 app.use(routerLogin.routes());
 app.use(routerDashboard.routes());
 app.use(routeAdmin.routes());
