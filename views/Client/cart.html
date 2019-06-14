@@ -5,13 +5,14 @@ Cart
 {% block main %}
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 <section id="cart_items">
-	<div class="container">
-		<div class="table-responsive cart_info">
-			{% if text %}
-			<h1 style="color: red; text-align:center;">{{text}}</h1>
-			{% else %}
-			<table class="table table-condensed">
-				<thead>
+	<div class="container-fluid">
+		{% if text %}
+		<h1 style="color: red; text-align:center;">{{text}}</h1>
+		{% else %}
+		<div class="col-md-6 col-md-offset-1" style="padding-top: 30px">
+			<div class="table-responsive cart_info" style="overflow-x: hidden">
+				<table class="table table-condensed">
+					<thead>
 					<tr class="cart_menu">
 						<td class="image">Image</td>
 						<td class="description">Name</td>
@@ -20,9 +21,9 @@ Cart
 						<td class="total">Total</td>
 						<td></td>
 					</tr>
-				</thead>
-				<tbody>
-				{% for product in groupByProduct %}
+					</thead>
+					<tbody>
+					{% for product in groupByProduct %}
 					<tr>
 						<td class="cart_product">
 							<a href=""><img width="100px" src="images/products/{{product.image}}" alt=""></a>
@@ -45,24 +46,39 @@ Cart
 							<a class="cart_quantity_delete" href="remove?idsp={{product.id}}"><i class="fa fa-times"></i></a>
 						</td>
 					</tr>
-				{% endfor %}
-				</tbody>
-			</table>
-		</div>
-	</div>
-</section> <!--/#cart_items-->
+					{% endfor %}
+					</tbody>
+				</table>
 
-<section id="do_action">
-	<div class="container">
-		<div class="row">
-			<div class="col-sm-6">
-				<a style="width: 100%" class="btn btn-outline-danger" href="checkout"><h1>Giao hàng và thanh toán</h1></a>
+				<br/>
+				<a class="btn-block btn btn-outline-success" href="checkout"><h1>Giao hàng và thanh toán</h1></a>
 			</div>
-			<div class="col-sm-6">
-				<a style="width: 100%" class="btn btn-outline-info" href=""><h1>Thanh toán truc tiep bang PayPal</h1></a>
-			</div>
+		</div>
+		<div class="col-md-4" style="margin-bottom: 36px;">
+			<div id="dropin-container" data-braintree-token="{{braintreeToken}}"></div>
+			<button id="paypalCheckout" class="btn-lg btn-block btn btn-info">
+				Paypal Checkout
+			</button>
 		</div>
 		{% endif %}
 	</div>
-</section><!--/#do_action-->
+	<div class="clearfix"></div>
+</section> <!--/#cart_items-->
+
+<script>
+	var token = document.querySelector('#dropin-container').getAttribute('data-braintree-token');
+	var button = document.querySelector('#paypalCheckout');
+	braintree.dropin.create({
+		authorization: token,
+		container: '#dropin-container'
+	}, function (createErr, instance) {
+		button.addEventListener('click', function (event) {
+			event.preventDefault();
+			console.log('touch', token);
+			instance.requestPaymentMethod(function (err, payload) {
+				// Submit payload.nonce to your server
+			});
+		});
+	});
+</script>
 {% endblock %}

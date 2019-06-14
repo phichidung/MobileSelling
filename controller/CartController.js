@@ -10,6 +10,7 @@ class CartController {
     }
 
     async cart(ctx, next) {
+        const result = await ctx.braintreeGateway.clientToken.generate();
         if(ctx.session.idsp) {
             if(ctx.session.idsp.length == 0) {
                 let text = 'Giỏ Hàng Trống !';
@@ -17,7 +18,7 @@ class CartController {
             } else {
                 let cart           = ctx.session.idsp;
                 let groupByProduct = await ctx.productRepository.findProductGroupBy(cart);
-                ctx.render('cart.html', { groupByProduct });
+                ctx.render('cart.html', { groupByProduct, braintreeToken: result.clientToken });
             }
         }else {
             let text = 'Giỏ Hàng Trống !';
