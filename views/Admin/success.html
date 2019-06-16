@@ -1,8 +1,9 @@
-{% extends "master_page.html" %}
+{% extends "master_page_home.html" %}
 {% block title %}
 Success
 {% endblock %}
 {% block main %}
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 <style>
     .table-total {
         display: flex;
@@ -19,6 +20,12 @@ Success
         margin: 42px;
         font-size: 20px;
     }
+
+    .back {
+        position: relative;
+        left: 10px;
+        margin-bottom: 20px;
+    }
 </style>
 
 <section id="cart_items">
@@ -27,6 +34,9 @@ Success
             <p>Quý khách đã đặt hàng thành công, Hóa đơn đã được gửi về Email của bạn, Vui lòng kiểm tra Email.<br>
                 Mặt hàng của bạn sẽ được chuyển trong vòng 24 giờ kể từ khi quý khách đặt hàng thành công.
             </p>
+        </div>
+        <div class="back">
+            <a href="home"><button class="btn btn-outline-success">Quay lại trang chủ</button></a>
         </div>
     </div>
 </section> <!--/#cart_items-->

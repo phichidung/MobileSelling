@@ -20,7 +20,7 @@ class PromotionEmail extends TemplateEmail{
     }
 
     getTemplate() {
-        return 'Client/promotion-email.html';
+        return 'Admin/promotion-email.html';
     }
 
     getMailData() {

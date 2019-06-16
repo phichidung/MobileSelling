@@ -3,7 +3,7 @@ class HomeController {
     async getHome(ctx, next) {
         let categories = await ctx.categoryRepository.getAll();
         let products   = await ctx.productRepository.getAll();
-        ctx.render('index.html', {categories, products});
+        ctx.render('indexHome.html', {categories, products});
     }
 }
 

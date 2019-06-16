@@ -6,7 +6,7 @@ services:
     env_file:
       - .env
     ports:
-      - "4000:6060"
+      - "6060:6060"
     depends_on:
       - mariadb
   mariadb:

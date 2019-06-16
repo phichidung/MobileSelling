@@ -9,9 +9,7 @@ const serve                = require('koa-static');
 const path                 = require('path');
 const bodyParser           = require('koa-bodyparser');
 const session              = require('koa-session');
-const staticPath           = '/views/Client';
-
-const braintree            = require("braintree");
+const staticPath           = '/views/Admin';
 
 const authProvider         = require('./auth/Auth.Provider');
 const userProvider         = require('./user/UserProvider');
@@ -24,6 +22,7 @@ const billDetailProvider   = require('./billdetail/BillDetail.provider');
 const braintreeProvider    = require('./braintree/BraintreeProvider');
 const customerProvider     = require('./customer/Customer.provider');
 const mailerProvider       = require('./mailer/Mail.provider');
+const multerProvider       = require('./multer/Multer.provider');
 const routerDashboard      = require('./router/RouteDashboard');
 const routerCategory       = require('./router/RouterCategory');
 const routerProduct        = require('./router/RouterProduct');
@@ -48,6 +47,7 @@ app.use(session(app));
 app.use(hasherProvider(10));
 app.use(bodyParser());
 app.use(nunjuck());
+app.use(multerProvider(config.uploadFile));
 app.use(userProvider(knex));
 app.use(productProvider(knex));
 app.use(categoryProvider(knex));

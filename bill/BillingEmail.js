@@ -20,7 +20,7 @@ class BillingEmail extends TemplateEmail {
     }
 
     getTemplate() {
-        return 'Client/mail.html'
+        return 'Admin/mail.html'
     }
 
     getMailData() {

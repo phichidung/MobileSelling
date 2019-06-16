@@ -1,5 +1,4 @@
 const multer = require('koa-multer');
-const path = require('path');
 
 class ProductController {
     // Show and Add Product
@@ -12,19 +11,27 @@ class ProductController {
 
     async postProduct(ctx, next) {
 
-        console.log(ctx.request.body);
-
-        // let data = {
-        //     name: ctx.request.body.name,
-        //     id_type: ctx.request.body.type,
-        //     id_promotion: ctx.request.body.promotion,
-        //     price: ctx.request.body.price,
-        //     warranty: ctx.request.body.warranty,
-        //     image: ctx.request.body.image,
-        //     description: ctx.request.body.description 
-        // }
-        // await ctx.productRepository.add(data);
-        // ctx.redirect('/products');
+        let data = {
+            name: ctx.request.body.name,
+            id_type: parseInt(ctx.request.body.type),
+            id_promotion: parseInt(ctx.request.body.promotion),
+            price: parseInt(ctx.request.body.price),
+            warranty: parseInt(ctx.request.body.warranty),
+            image: ctx.request.body.image,
+            description: ctx.request.body.description
+        };
+        // let storage = multer.diskStorage({
+        //     destination: function(req, file, cb) {
+        //         cb(null, './views/Admin/images/product');
+        //     },
+        //     filename: function (req, file, cb) {
+        //         cb(null, file.originalname);
+        //     }
+        // });
+        // let upload = multer({storage: storage});
+        // upload.single('image');
+        await ctx.productRepository.add(data);
+        ctx.redirect('/products');
     }
 
     // Update Product

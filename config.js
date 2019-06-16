@@ -10,5 +10,10 @@ module.exports = {
             user: 'champion.sphinx@gmail.com', // generated ethereal user
             pass: '1ccdd2cm' // generated ethereal password
         }
+    },
+    uploadFile: {
+        destination: function(req, file, cb) {
+            cb(null, './views/Admin/images/product');
+        },
     }
 };
