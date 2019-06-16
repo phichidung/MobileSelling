@@ -77,6 +77,27 @@ Cart
 			console.log('touch', token);
 			instance.requestPaymentMethod(function (err, payload) {
 				// Submit payload.nonce to your server
+				$.ajax({
+					type: 'POST',
+					url: '/braintree-transaction',
+					data: {'paymentMethodNonce': payload.nonce}
+				}).done(function(result) {
+					instance.teardown(function(teardownErr) {
+						if(teardownErr) {
+							console.log('cound not tear down drop-in ui');
+						}else{
+							console.log('Drop-in UI has been torn down');
+							$('#paypalCheckout').remove();
+						}
+					});
+
+					if(result.susscess) {
+						alert('susscess');
+					}else{
+						console.log('result');
+						alert('error');
+					}
+				});
 			});
 		});
 	});

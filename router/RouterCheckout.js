@@ -8,7 +8,7 @@ router.get('/checkout', checkoutController.checkout);
 router.post('/checkout', checkoutController.sendBill);
 
 router.post('/braintree-transaction', async(context) => {
-    const nonce = context.body.nonce;
+    const nonce = context.request.body.paymentMethodNonce;
 
     await context.braintreeGateway.transaction.sale({
         amount: '10.00',
@@ -17,10 +17,9 @@ router.post('/braintree-transaction', async(context) => {
             submitForSettlement: true
         }
     });
-
     return {
         payment: 'success'
-    }
+    };
 });
 
 module.exports = router;
