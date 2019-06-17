@@ -43,6 +43,7 @@ app.keys = ['some-secret-key'];
 app.use(serve(
     path.join(__dirname, staticPath)
 ));
+
 app.use(session(app));
 app.use(hasherProvider(10));
 app.use(bodyParser());
