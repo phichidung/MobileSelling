@@ -2,14 +2,18 @@ FROM node:10
 
 RUN mkdir /app
 
-COPY . /app
-
 WORKDIR /app
 
-ENV NODE_PORT 6060
+COPY ./package.json .
 
 RUN npm install
 
-CMD ["npm", "start"]
+COPY ./app.js ./app.js
 
-EXPOSE ${NODE_PORT}
+RUN mkdir /config
+
+ADD ./ ./
+
+EXPOSE 5000
+
+CMD ["npm", "start"]

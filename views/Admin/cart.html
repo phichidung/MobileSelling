@@ -74,7 +74,6 @@ Cart
 	}, function (createErr, instance) {
 		button.addEventListener('click', function (event) {
 			event.preventDefault();
-			console.log('touch', token);
 			instance.requestPaymentMethod(function (err, payload) {
 				// Submit payload.nonce to your server
 				$.ajax({
@@ -91,10 +90,10 @@ Cart
 						}
 					});
 
-					if(result.susscess) {
+					if(result.payment) {
 						alert('susscess');
 					}else{
-						console.log('result');
+						console.log(result.success());
 						alert('error');
 					}
 				});
