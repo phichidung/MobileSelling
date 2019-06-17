@@ -1,4 +1,4 @@
-{% extends "master_page.html" %}
+{% extends "master_page_home.html" %}
 {% block title %} 
 	Search Page
 {% endblock %}
@@ -37,7 +37,7 @@
 					
 					</div>
 				</div>
-				
+				{% if products %}
 				<div class="col-sm-9 padding-right">
 					<div class="features_items"><!--features_items-->
 						<h2 class="title text-center">Search by name: <font color="red">{{name}}</font></h2>
@@ -63,7 +63,9 @@
 						</div>
 						{% endfor %}
 					</div><!--features_items-->
-					
+					{% else %}
+					<h2 class="title text-center">Không tìm thấy sản phẩm: <font color="red">{{name}}</font></h2>
+					{% endif %}
 				</div>
 			</div>
 		</div>

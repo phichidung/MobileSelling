@@ -44,6 +44,7 @@ class CheckoutController {
 
             await ctx.mailer.send(new PromotionEmail(relatedProducts, customer.getEmail()));
         }
+        ctx.session = null;
         ctx.redirect('success');
     }
 

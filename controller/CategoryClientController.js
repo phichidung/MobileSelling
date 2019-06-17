@@ -3,7 +3,7 @@ class CategoryClientController {
         let categories   = await ctx.categoryRepository.getAll();
         let nameCategory = await ctx.categoryRepository.findCategoryById(ctx.query.id);
         let products     = await ctx.productRepository.findProductByIdType(ctx.query.id);
-        ctx.render('category.html', { categories, nameCategory, products });
+        ctx.render('categoryHome.html', { categories, nameCategory, products });
     }
 }
 
