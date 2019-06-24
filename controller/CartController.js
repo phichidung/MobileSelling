@@ -38,16 +38,5 @@ class CartController {
         }
         ctx.redirect('/cart');
     }
-
-    async checkout(ctx, next) {
-        let cart           = ctx.session.idsp;
-        let bill           = await ctx.productRepository.findProductGroupBy(cart);
-        let total          = await ctx.productRepository.findPriceProductGroupBy(cart);
-        var totalPrice     = 0;
-        for(var i = 0; i < total.length; i++) {
-            totalPrice += total[i].price;
-        }
-        ctx.render('checkout.html', {bill, totalPrice});
-    }
 }
 module.exports = CartController;

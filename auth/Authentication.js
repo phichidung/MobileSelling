@@ -1,8 +1,9 @@
 class Authenticator {
-    constructor(userProvider, hasher, session) {
-        this.userProvider = userProvider;
-        this.hasher       = hasher;
-        this.session      = session;
+    constructor(userProvider, clientProvider, hasher, session) {
+        this.userProvider   = userProvider;
+        this.clientProvider = clientProvider;
+        this.hasher         = hasher;
+        this.session        = session;
     }
 
     async attempt(username, password) {

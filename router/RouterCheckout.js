@@ -4,29 +4,43 @@ const CheckoutController = require('../controller/CheckoutController');
 const router = new Router();
 const checkoutController = new CheckoutController();
 
-router.get('/checkout', checkoutController.checkout);
-router.post('/checkout', checkoutController.sendBill);
-
-router.post('/braintree-transaction', async(req, res, context) => {
+router.post('/braintree-transaction', async(context) => {
     const nonce = context.request.body.paymentMethodNonce;
-    console.log('geting nonce');
+    let cart       = context.session.idsp;
+    let total      = await context.productRepository.findPriceProductGroupBy(cart);
+    let usd        = 23000;
+    let totalPrice = 0;
+    for(let i = 0; i < total.length; i++) {
+        totalPrice += total[i].price;
+    }
+
+    let USD        = Math.round(totalPrice/usd);
+    let usdString  = String(USD)+'.00';
+
     await context.braintreeGateway.transaction.sale({
-        amount: '10.00',
+        amount: usdString,
         paymentMethodNonce: nonce,
         options: {
             submitForSettlement: true
-        }
+        },
     }, function(error, result) {
         if(result) {
-            res.send(result);
+            context.status = 200;
+            context.body = {
+                message: "success"
+            }
         }else {
-            res.status(500).send(error);
+            context.status = 400;
+            context.body = {
+                message: "error"
+            }
         }
     });
-
-    return {
-        payment: 'success'
-    };
 });
 
+router.get('/checkout', checkoutController.checkout);
+router.post('/checkout', checkoutController.sendBill);
+
 module.exports = router;
+
+

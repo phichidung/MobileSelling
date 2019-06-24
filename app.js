@@ -9,6 +9,7 @@ const serve                = require('koa-static');
 const path                 = require('path');
 const bodyParser           = require('koa-bodyparser');
 const session              = require('koa-session');
+const speakeasy = require('speakeasy');
 const staticPath           = '/views/Admin';
 
 const authProvider         = require('./auth/Auth.Provider');
@@ -23,6 +24,8 @@ const braintreeProvider    = require('./braintree/BraintreeProvider');
 const customerProvider     = require('./customer/Customer.provider');
 const mailerProvider       = require('./mailer/Mail.provider');
 const multerProvider       = require('./multer/Multer.provider');
+const clientProvider       = require('./client/Client.provider');
+const twofactorProvider    = require('./2fa/2fa.provider');
 const routerDashboard      = require('./router/RouteDashboard');
 const routerCategory       = require('./router/RouterCategory');
 const routerProduct        = require('./router/RouterProduct');
@@ -35,8 +38,12 @@ const routerCart           = require('./router/RouterCart');
 const routerRemoveCart     = require('./router/RouterRemoveCart');
 const routerCheckout       = require('./router/RouterCheckout');
 const routerSuccess        = require('./router/RouterSuccess');
+const routerSingin         = require('./router/RouterSingin');
+const routerSingup         = require('./router/RouterSingup');
+const routerTwoFactor      = require('./router/RouterTwoFactor');
 
 const app = new Koa();
+
 
 app.keys = ['some-secret-key'];
 
@@ -45,6 +52,7 @@ app.use(serve(
 ));
 
 app.use(session(app));
+app.use(twofactorProvider(speakeasy));
 app.use(hasherProvider(10));
 app.use(bodyParser());
 app.use(nunjuck());
@@ -58,6 +66,7 @@ app.use(billDetailProvider(knex));
 app.use(customerProvider(knex));
 app.use(mailerProvider(config.mail));
 app.use(authProvider());
+app.use(clientProvider(knex));
 app.use(braintreeProvider({
     sandbox: true,
     merchantId: process.env.BRAINTREE_MERCHANT_ID,
@@ -78,6 +87,9 @@ app.use(routerCart.routes());
 app.use(routerRemoveCart.routes());
 app.use(routerCheckout.routes());
 app.use(routerSuccess.routes());
+app.use(routerSingin.routes());
+app.use(routerSingup.routes());
+app.use(routerTwoFactor.routes());
 
 app.listen(process.env.PORT, () => {
     console.log('Server listen port ' + process.env.PORT)

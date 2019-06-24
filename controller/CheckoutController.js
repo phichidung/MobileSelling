@@ -1,6 +1,6 @@
 const ItemCollection = require('./../bill/ItemCollection');
 const BillingEmail   = require('../bill/BillingEmail');
-const PromotionEmail = require('../promotion/PromotionEmail')
+const PromotionEmail = require('../promotion/PromotionEmail');
 class CheckoutController {
     async checkout(ctx) {
         let cart           = ctx.session.idsp;
