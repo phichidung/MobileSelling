@@ -6,11 +6,13 @@ services:
     env_file:
       - .env
     ports:
-      - "6060:6060"
+      - "5000:5000"
     depends_on:
       - mariadb
   mariadb:
     image: mariadb:10.3
     restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: 1
+    env_file:
+      - .env
+    expose:
+      - 3306
